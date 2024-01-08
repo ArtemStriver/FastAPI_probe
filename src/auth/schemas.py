@@ -21,3 +21,9 @@ class UserCreate(schemas.BaseUserCreate):
     is_active: Optional[bool] = True
     is_superuser: Optional[bool] = False
     is_verified: Optional[bool] = False
+
+
+class RoleCreate(schemas.BaseModel):
+    id: int
+    name: str
+    permissions: dict | None = None

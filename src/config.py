@@ -16,7 +16,15 @@ DB_NAME_TEST = os.environ.get("DB_NAME_TEST")
 DB_USER_TEST = os.environ.get("DB_USER_TEST")
 DB_PASS_TEST = os.environ.get("DB_PASS_TEST")
 
+REDIS_HOST = os.environ.get("REDIS_HOST")
+REDIS_PORT = os.environ.get("REDIS_PORT")
+
 SECRET_AUTH = os.environ.get("SECRET_AUTH")
 
 SMTP_USER = os.environ.get("SMTP_USER")
 SMTP_PASSWORD = os.environ.get("SMTP_PASSWORD")
+SMTP_HOST = os.environ.get("SMTP_HOST")
+SMTP_PORT = os.environ.get("SMTP_PORT")
+TO_SEND_EMAIL_TEST = os.environ.get("TO_SEND_EMAIL_TEST")
+WS_URL = os.getenv("WS_URL")
+NON_DEV = os.getenv("NON_DEV")

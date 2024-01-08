@@ -1,9 +1,13 @@
+from redis import asyncio as aioredis
 from fastapi import FastAPI
+from fastapi_cache import FastAPICache
+from fastapi_cache.backends.redis import RedisBackend
 from starlette.middleware.cors import CORSMiddleware
 from fastapi.staticfiles import StaticFiles
 
 from src.auth.base_config import fastapi_users, auth_backend
 from src.auth.schemas import UserRead, UserCreate
+from src.config import REDIS_HOST, REDIS_PORT
 from src.operations.router import router as router_operation
 from src.tasks.router import router as router_tasks
 from src.pages.router import router as router_pages
@@ -45,3 +49,9 @@ app.add_middleware(
     allow_headers=["Content-Type", "Set-Cookie", "Access-Control-Allow-Headers", "Access-Control-Allow-Origin",
                    "Authorization"],
 )
+
+
+@app.on_event("startup")
+async def startup_event():
+    redis = aioredis.from_url(f"redis://{REDIS_HOST}:{REDIS_PORT}", encoding="utf8", decode_responses=True)
+    FastAPICache.init(RedisBackend(redis), prefix="fastapi-cache")

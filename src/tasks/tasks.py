@@ -3,26 +3,21 @@ from email.message import EmailMessage
 
 from celery import Celery
 
-from src.config import SMTP_PASSWORD, SMTP_USER
+from src.config import SMTP_PASSWORD, SMTP_USER, REDIS_HOST, REDIS_PORT, SMTP_HOST, SMTP_PORT, TO_SEND_EMAIL_TEST
 
-SMTP_HOST = "smtp.gmail.com"
-SMTP_PORT = 465
-
-celery = Celery('tasks', broker='redis://localhost:6379')
+celery = Celery('tasks', broker=f'redis://{REDIS_HOST}:{REDIS_PORT}')
 
 
 def get_email_template_dashboard(username: str):
     email = EmailMessage()
-    email['Subject'] = 'Натрейдил Отчет Дашборд'
+    email['Subject'] = 'Отчет за месяц'
     email['From'] = SMTP_USER
-    email['To'] = 'ady.kon@mail.ru'
+    email['To'] = TO_SEND_EMAIL_TEST
 
     email.set_content(
         '<div>'
-        f'<h1 style="color: red;">Здравствуйте, {username}, а вот и ваш отчет. Зацените 😊</h1>'
-        '<img src="https://static.vecteezy.com/system/resources/previews/008/295/031/original/custom-relationship'
-        '-management-dashboard-ui-design-template-suitable-designing-application-for-android-and-ios-clean-style-app'
-        '-mobile-free-vector.jpg" width="600">'
+        f'<h1 style="color: red;">Здравствуйте, {username}, вот ваш отчет за месяц.</h1>'
+        '<img src="https://www.kadrof.ru/sites/default/files/illustrations/seo_otchet.jpg" width="600">'
         '</div>',
         subtype='html'
     )
